@@ -15,9 +15,10 @@ public class TabsBuilder extends BuilderLibrary implements ITabsBuilder {
 	private int width;
 
 	public void buildComponent() {
-		setDimension();
+		
 		setFont();
 		setBorder();
+		setDimension();
 		setColor();
 	}
 

@@ -9,7 +9,9 @@ import java.awt.Insets;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -73,24 +75,76 @@ public class PreviewUI {
 
 	public static void main(String args[]) {
 		
-		PreviewUI ui = new PreviewUI();
-		JPanel panel = ui.AddComponentsToUI("Example ProgramNode");
-		
-//		panel.add(ui.showTextFields());
-//		panel.add(ui.showTabs());
-//		panel.add(ui.showTables());
-//		panel.add(ui.showSlider());
-		panel.add(ui.showLoadingBar());
-//		panel.add(ui.showDivider());
-//		panel.add(ui.showDifferentMessageType());
-//		panel.add(ui.showToggles());
-//		panel.add(ui.showButtons());
+		PreviewUI previewUI = new PreviewUI();	
+		//Initialize the program node panel.
+		JPanel panel = previewUI.ProgramNodePanel("Example ProgramNode");
 		
 		
-		ui.PreviewProgramNodeUI(panel);
+		System.out.println("main !");
 		
+		panel.add(previewUI.exampleTabs(previewUI));
+		//adds the panel to be able to preview.
+		previewUI.PreviewProgramNodeUI(panel);
 		
 	}
+	
+	
+	private Box exampleTabs(PreviewUI previewUI) {
+		Box box = Box.createHorizontalBox();
+		box.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+		JTabbedPane tabPane = tabs.getTabbedPane(100);
+		JPanel buttonPanel = previewUI.URPanel();
+		JPanel dropDownPanel = previewUI.URPanel();
+		JPanel slidersPanel = previewUI.URPanel();
+		JPanel progressPanel = previewUI.URPanel();
+		JPanel messagesPanel = previewUI.URPanel();
+		JPanel tabelsPanel = previewUI.URPanel();
+		
+		
+		
+		buttonPanel.add(showButtons());
+		dropDownPanel.add(this.showDropdowns());
+		slidersPanel.add(this.showSlider());
+		progressPanel.add(this.showLoadingBar());
+		messagesPanel.add(this.showDifferentMessageType());
+		tabelsPanel.add(this.showTables());
+
+		
+		tabPane.addTab("Buttons", buttonPanel);
+		tabPane.addTab("DropDown", dropDownPanel);
+		tabPane.addTab("Sliders", slidersPanel);
+		tabPane.addTab("Progress", progressPanel);
+		tabPane.addTab("Messages", messagesPanel);
+		tabPane.addTab("Tabels", tabelsPanel);
+
+		/*
+		JLabel lab = new JLabel("Buttons");
+		lab.setPreferredSize(new Dimension(165, 40));
+		tabPane.setTabComponentAt(0, lab);		
+		*/
+		box.add(tabPane);
+
+		return box;
+	}	
+	
+	private Box showDropdowns() {
+		Box box = Box.createVerticalBox();
+		box.setAlignmentX(Component.LEFT_ALIGNMENT);
+		String[] stringValues = {"A","B","C"};
+		
+		JComboBox<String> boxEnabled = dropdown.getDropDownEnabled(100);
+		boxEnabled.setModel(new DefaultComboBoxModel<String>(stringValues));
+		
+		JComboBox<String> boxDisabled = dropdown.getDropDownDisabled(100);
+		boxDisabled.setModel(new DefaultComboBoxModel<String>(stringValues));
+		
+		box.add(boxEnabled);
+		box.add(urSpacing.createVerticalSpacing(urSpacingSize.VERTICAL_SPACING));
+		box.add(boxDisabled);
+		
+		return box;
+	}	
 	
 	public Box showTextFields() {
 		Box box = Box.createHorizontalBox();
@@ -308,21 +362,13 @@ public class PreviewUI {
 	 * under the getTitle method.
 	 * @return a reconfigured panel for adding the components.
 	 */
-	public JPanel AddComponentsToUI(String programNodeTitle) {
-		JPanel panel = new JPanel();
+	public JPanel ProgramNodePanel(String programNodeTitle) {
+		JPanel panel = URPanel();
 
-		Font font = new Font(urTypegraphy.FontFamilie_DejaVu, urTypegraphy.Bold, urTypegraphy.FONT_MAIN_HEADING_SIZE);
-		BoxLayout boxlayout = new BoxLayout(panel, BoxLayout.Y_AXIS);
-
-		panel.setBackground(urColorPalette.WHITE);
-		panel.setForeground(urColorPalette.BLACK);
-		panel.setFont(font);
-
-		panel.setLayout(boxlayout);
 		panel.setBorder(new EmptyBorder(new Insets(0, 17, 0, 17)));
 		
 		JLabel label = new JLabel(programNodeTitle);
-		label.setFont(font);
+		label.setFont(panel.getFont());
 
 		Box box = Box.createHorizontalBox();
 		box.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -335,7 +381,20 @@ public class PreviewUI {
 
 	}
 	
-	
+	public JPanel URPanel() {
+		JPanel panel = new JPanel();
+
+		Font font = new Font(urTypegraphy.FontFamilie_DejaVu, urTypegraphy.Bold, urTypegraphy.FONT_MAIN_HEADING_SIZE);
+		BoxLayout boxlayout = new BoxLayout(panel, BoxLayout.Y_AXIS);
+
+		panel.setBackground(urColorPalette.WHITE);
+		panel.setForeground(urColorPalette.BLACK);
+		panel.setFont(font);
+
+		panel.setLayout(boxlayout);
+		return panel;
+
+	}	
 	
 	
 

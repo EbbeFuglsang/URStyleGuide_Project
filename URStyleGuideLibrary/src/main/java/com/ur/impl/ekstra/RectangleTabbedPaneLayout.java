@@ -1,15 +1,20 @@
 package com.ur.impl.ekstra;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.GeneralPath;
 
+import javax.swing.JComponent;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 import com.ur.style.URColorPalette;
+import com.ur.impl.builder.objects.BuilderLibrary;
 
 public class RectangleTabbedPaneLayout extends BasicTabbedPaneUI {
 	private URColorPalette urColorPalette = new URColorPalette();
@@ -20,12 +25,23 @@ public class RectangleTabbedPaneLayout extends BasicTabbedPaneUI {
 	private Color borderColor = urColorPalette.BLACK;
 
 	@Override
+	public int  calculateTabHeight(int arg0, int arg1, int arg2) {
+		return 40;//urBorder.HEIGHT_MEDIUM;		
+	}
+	
+	@Override
+	public int  calculateTabWidth(int arg0, int arg1, FontMetrics arg2) {
+		
+		return 165;//urBorder.HEIGHT_MEDIUM;		
+	}
+
+	
+	@Override
 	protected void paintTabArea(Graphics g, int tabPlacement, int selectedIndex) {
 		int tabCount = tabPane.getTabCount();
-
 		Rectangle iconRect = new Rectangle(), textRect = new Rectangle();
 		Rectangle clipRect = g.getClipBounds();
-
+		//this.calculateTabWidth(arg0, arg1, arg2)
 		for (int i = runCount - 1; i >= 0; i--) {
 			int start = tabRuns[i];
 			int next = tabRuns[(i == runCount - 1) ? 0 : i + 1];
